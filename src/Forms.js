@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Forms.css'; // Import the CSS
+import useLogin from './hooks/useLogin.js';
+import useSignup from './hooks/useSignup.js';
 
 const Forms = ({ onViewSwitch }) => {
   const [isSignup, setIsSignup] = useState(false);
@@ -7,7 +9,19 @@ const Forms = ({ onViewSwitch }) => {
   const [captcha, setCaptcha] = useState(''); // Store CAPTCHA value
   const [userCaptcha, setUserCaptcha] = useState(''); // Store user's CAPTCHA input
   const [captchaError, setCaptchaError] = useState(false); // Track CAPTCHA errors
+  const [userLoginData,setUserLoginData] = useState({
+    phNo:"",
+    password:"",
+  });
+  const [userSignupData,setUserSignupData] = useState({
+    name:"",
+    phNo:"",
+    password:"",
+  });
   
+  const {loginLoading,login} = useLogin();
+  const {signupLoading,Signup} = useSignup();
+
   const toggleForm = () => {
     setIsSignup(!isSignup);
   };
@@ -61,13 +75,13 @@ const Forms = ({ onViewSwitch }) => {
             {/* Name input with icon */}
             <div className="input-wrapper">
               <i className="fas fa-user icon"></i>
-              <input type="text" placeholder="Name" required />
+              <input type="text" placeholder="Name" value={userSignupData.name} onChange={(e)=>{setUserSignupData({...userSignupData,name:e.target.value})}} required />
             </div>
 
             {/* Phone number input with icon */}
             <div className="input-wrapper">
               <i className="fas fa-phone-alt icon"></i>
-              <input type="number" placeholder="Phone no." required />
+              <input type="number" placeholder="Phone no." value={userSignupData.phNo} onChange={(e)=>{setUserSignupData({...userSignupData,phNo:e.target.value})}} required />
             </div>
 
             {/* Password input with icon */}
@@ -77,6 +91,7 @@ const Forms = ({ onViewSwitch }) => {
                 type={passwordVisible ? 'text' : 'password'}
                 placeholder="Password"
                 id="password"
+                value={userSignupData.password} onChange={(e)=>{setUserSignupData({...userSignupData,password:e.target.value})}}
                 required
               />
             </div>
@@ -97,7 +112,7 @@ const Forms = ({ onViewSwitch }) => {
             {/* Username input with icon */}
             <div className="input-wrapper">
               <i className="fas fa-user icon"></i>
-              <input type="text" placeholder="Registered number" required />
+              <input type="text" placeholder="Registered number" value={userLoginData.phNo} onChange={(e)=>{setUserLoginData({...userLoginData,phNo:e.target.value})}} required />
             </div>
 
             {/* Password input with icon */}
@@ -107,6 +122,8 @@ const Forms = ({ onViewSwitch }) => {
                 type={passwordVisible ? 'text' : 'password'}
                 placeholder="Password"
                 id="password"
+                value={userLoginData.password}
+                onChange={(e)=>{setUserLoginData({...userLoginData,password:e.target.value})}}
                 required
               />
             </div>
