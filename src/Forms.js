@@ -29,7 +29,8 @@ const Forms = ({ onViewSwitch }) => {
   const handleLogin = () => {
     if (userCaptcha === captcha) {
       // After successful signin, switch to MainFeed view
-      onViewSwitch('MainFeed');
+      //onViewSwitch('MainFeed');
+      login(data.name,data.phNo,data.password);
     } else {
       setCaptchaError(true); // Show error if CAPTCHA is incorrect
       

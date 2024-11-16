@@ -1,58 +1,57 @@
 import { useState } from "react";
 
 const useSignup = () => {
-    const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    const signup = async (name,phNo,password)=>{
+  const signup = async (name, phNo, password) => {
+ const success = validate(name, phNo, password);
 
-      console.log(name,phNo,password);
-    const success = validate(name,phNo,password); // client side input validation
+  if (!success) return;
 
-    if(!success) return ;
+  try {
+    setLoading(true);
 
-    try{
-      setLoading(true);
-      console.log(name,phNo,password);
+    const res = await fetch("http://localhost:8080/user/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, phNo, password }),
+    });
 
-      const res = await fetch("http://localhost:8080/user/signup",{
-        method:"POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          name,phNo,password
-        })
-      });
-
-      console.log(res);
-      const data = await res.json()
-      console.log(data.body)
-
-      if(data.error){
-        throw new Error(data.error);
-      }
-
-    } catch(e) {
-      console.error(e.message);
-      console.log(e);
-    } finally {
-      setLoading(false);
+    let data;
+    try {
+      data = await res.json(); // Try to parse JSON response
+    } catch (_e) {
+      data = await res.text(); // Fallback to text if JSON parsing fails
     }
-  } 
-  return {loading,signup};
-}
 
-const validate = (name,phNo,password) => {
-  if(!name || !phNo || !password) {
+    if (!res.ok) {
+      throw new Error(data.error || data || "Something went wrong");
+    }
+
+    console.log("Signup successful:", data);
+
+  } catch (e) {
+    console.error("Signup error:", e.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+  return { loading, signup };
+};
+
+const validate = (name, phNo, password) => {
+  if (!name || !phNo || !password) {
     console.error("Some inputs are missing");
     return false;
   }
 
-  if(phNo < 1000000000 || phNo > 9999999999) {
-    console.error("not a valid phone number")
+  if (phNo < 1000000000 || phNo > 9999999999) {
+    console.error("Not a valid phone number");
+    return false;
   }
 
-  
-
   return true;
-}
+};
 
 export default useSignup;
