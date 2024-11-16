@@ -9,18 +9,14 @@ const Forms = ({ onViewSwitch }) => {
   const [captcha, setCaptcha] = useState(''); // Store CAPTCHA value
   const [userCaptcha, setUserCaptcha] = useState(''); // Store user's CAPTCHA input
   const [captchaError, setCaptchaError] = useState(false); // Track CAPTCHA errors
-  const [userLoginData,setUserLoginData] = useState({
-    phNo:"",
-    password:"",
-  });
-  const [userSignupData,setUserSignupData] = useState({
+  const [data,setData] = useState({
     name:"",
     phNo:"",
     password:"",
   });
-  
+   
   const {loginLoading,login} = useLogin();
-  const {signupLoading,Signup} = useSignup();
+  const {signupLoading,signup} = useSignup();
 
   const toggleForm = () => {
     setIsSignup(!isSignup);
@@ -46,7 +42,8 @@ const Forms = ({ onViewSwitch }) => {
 
   const handleSignup = () => {
     // After successful signup, switch to MainFeed view
-    onViewSwitch('MainFeed');
+    signup(data.name,data.phNo,data.password)
+    //onViewSwitch('MainFeed');
   };
 
   // Function to generate random CAPTCHA string
@@ -75,13 +72,13 @@ const Forms = ({ onViewSwitch }) => {
             {/* Name input with icon */}
             <div className="input-wrapper">
               <i className="fas fa-user icon"></i>
-              <input type="text" placeholder="Name" value={userSignupData.name} onChange={(e)=>{setUserSignupData({...userSignupData,name:e.target.value})}} required />
+              <input type="text" placeholder="Name" value={data.name} onChange={(e)=>{setData({...data,name:e.target.value})}} required />
             </div>
 
             {/* Phone number input with icon */}
             <div className="input-wrapper">
               <i className="fas fa-phone-alt icon"></i>
-              <input type="number" placeholder="Phone no." value={userSignupData.phNo} onChange={(e)=>{setUserSignupData({...userSignupData,phNo:e.target.value})}} required />
+              <input type="number" placeholder="Phone no." value={data.phNo} onChange={(e)=>{setData({...data,phNo:e.target.value})}} required />
             </div>
 
             {/* Password input with icon */}
@@ -91,7 +88,7 @@ const Forms = ({ onViewSwitch }) => {
                 type={passwordVisible ? 'text' : 'password'}
                 placeholder="Password"
                 id="password"
-                value={userSignupData.password} onChange={(e)=>{setUserSignupData({...userSignupData,password:e.target.value})}}
+                value={data.password} onChange={(e)=>{setData({...data,password:e.target.value})}}
                 required
               />
             </div>
@@ -108,11 +105,16 @@ const Forms = ({ onViewSwitch }) => {
         <div className="form-control signin-form">
           <form action="#">
             <h2>LOGIN</h2><br/>
+            <div className="input-wrapper">
+              <i className="fas fa-user icon"></i>
+              <input type="text" placeholder="Name" value={data.name} onChange={(e)=>{setData({...data,name:e.target.value})}} required />
+            </div>
 
+ 
             {/* Username input with icon */}
             <div className="input-wrapper">
               <i className="fas fa-user icon"></i>
-              <input type="text" placeholder="Registered number" value={userLoginData.phNo} onChange={(e)=>{setUserLoginData({...userLoginData,phNo:e.target.value})}} required />
+              <input type="text" placeholder="Registered number" value={data.phNo} onChange={(e)=>{setData({...data,phNo:e.target.value})}} required />
             </div>
 
             {/* Password input with icon */}
@@ -122,16 +124,17 @@ const Forms = ({ onViewSwitch }) => {
                 type={passwordVisible ? 'text' : 'password'}
                 placeholder="Password"
                 id="password"
-                value={userLoginData.password}
-                onChange={(e)=>{setUserLoginData({...userLoginData,password:e.target.value})}}
+                value={data.password}
+                onChange={(e)=>{setData({...data,password:e.target.value})}}
                 required
               />
-            </div>
-            <i
+              <i
                 className={`fa ${passwordVisible ? 'fa-eye' : 'fa-eye-slash'} toggle-password`}
                 onClick={togglePasswordVisibility} id="eye"
             ></i>
 
+
+            </div>
             {/* CAPTCHA Input */}
             <div className="captcha-container">
               <div className="captcha-display">

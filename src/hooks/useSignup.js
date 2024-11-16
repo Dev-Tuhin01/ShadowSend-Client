@@ -3,23 +3,46 @@ import { useState } from "react";
 const useSignup = () => {
     const [loading,setLoading] = useState(false);
 
-    const signup =(phNo,password)=>{
-    const success = validate(phNo,password); // client side input validation
+    const signup = async (name,phNo,password)=>{
+
+      console.log(name,phNo,password);
+    const success = validate(name,phNo,password); // client side input validation
 
     if(!success) return ;
 
     try{
-      console.log(phNo,password);
+      setLoading(true);
+      console.log(name,phNo,password);
+
+      const res = await fetch("http://localhost:8080/user/signup",{
+        method:"POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          name,phNo,password
+        })
+      });
+
+      console.log(res);
+      const data = await res.json()
+      console.log(data.body)
+
+      if(data.error){
+        throw new Error(data.error);
+      }
+
     } catch(e) {
+      console.error(e.message);
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   } 
   return {loading,signup};
 }
 
-const validate = (phNo,password) => {
-  if(!phNo || !password) {
-    console.error("No phone number or password");
+const validate = (name,phNo,password) => {
+  if(!name || !phNo || !password) {
+    console.error("Some inputs are missing");
     return false;
   }
 
