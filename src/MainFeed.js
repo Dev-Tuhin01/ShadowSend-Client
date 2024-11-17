@@ -3,6 +3,7 @@ import './MainFeed.css';
 import picture from './project.jpeg';
 import Swal from 'sweetalert2'; // Ensure SweetAlert is imported
 import useLogout from './hooks/useLogout.js';
+import useGetSix from './hooks/useGetSix.js';
 
 function MainFeed() {
   const [formVisible, setFormVisible] = useState(false); // State for showing the popup form
@@ -14,14 +15,17 @@ function MainFeed() {
   const [decryptedMessage, setDecryptedMessage] = useState(''); // State for decrypted message
   const [decryptedModalVisible, setDecryptedModalVisible] = useState(false); // State to control the decrypted message modal
   const {loading, logout} = useLogout();
-
+  const {userViews,error,fetchFirstSix} = useGetSix();
   useEffect(() => {
+    fetchFirstSix()
     document.body.classList.add('mainfeed-body');
+    
     return () => {
       document.body.classList.remove('mainfeed-body');
     };
-  }, []);
-
+  }, [fetchFirstSix]);
+  
+  console.log(userViews);
   // Sample encrypted messages data
   const messages = [
     { sender: 'Jane Smith', encryptedMessage: 'SG93IGFyZSB5b3U/' },
