@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './MainFeed.css';
 import picture from './project.jpeg';
 import Swal from 'sweetalert2'; // Ensure SweetAlert is imported
+import useLogout from './hooks/useLogout.js';
 
 function MainFeed() {
   const [formVisible, setFormVisible] = useState(false); // State for showing the popup form
@@ -12,6 +13,7 @@ function MainFeed() {
   });
   const [decryptedMessage, setDecryptedMessage] = useState(''); // State for decrypted message
   const [decryptedModalVisible, setDecryptedModalVisible] = useState(false); // State to control the decrypted message modal
+  const {loading, logout} = useLogout();
 
   useEffect(() => {
     document.body.classList.add('mainfeed-body');
@@ -104,6 +106,11 @@ function MainFeed() {
     });
   };
 
+  const handleLogout = () =>{
+    console.log("loggingout");
+    logout();
+  }
+
   return (
     <div className="mainfeed">
       {/* Navbar */}
@@ -126,6 +133,7 @@ function MainFeed() {
         <i className="material-icons nav__icon new-message-btn" onClick={openForm}>
           edit_note
         </i>
+        <button onClick={handleLogout}>Logout</button>
       </nav>
 
       {/* Body */}
