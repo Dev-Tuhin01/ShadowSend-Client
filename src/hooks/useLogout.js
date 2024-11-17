@@ -35,20 +35,16 @@ const useLogout = () => {
       },
     });
 
-    if (response.ok) {
-      // Check if response body exists and is a valid JSON
-      let data = {};
-      try {
-        data = await response.json();
-      } catch (err) {
-        console.error("Error parsing JSON:", err);
-        setError("Failed to parse logout response.");
-        return;
-      }
+    let data = {};
+    try {
+      data = await response.json();
+    } catch (err) {
+      console.error("Error parsing JSON:", err);
+    }
 
-      // Clear token from localStorage after logout
+    if (response.ok) {
       localStorage.removeItem('authToken');
-      setUser(null);  // Reset user state
+      setUser(null); 
       Swal.fire({
         icon: 'success',
         title: 'Logged Out!',
@@ -56,16 +52,11 @@ const useLogout = () => {
         confirmButtonText: 'Okay'
       });
     } else {
-      // Handle non-OK responses
-      const errorData = await response.json().catch(err => {
-        console.error("Error parsing JSON:", err);
-        return {}; // Return empty object if JSON parsing fails
-      });
-      setError(errorData.message || 'Logout failed. Please try again.');
+      setError(data.message || 'Logout failed. Please try again.');
       Swal.fire({
         icon: 'error',
         title: 'Logout Failed!',
-        text: error || 'An error occurred. Please try again.',
+        text: data.message || 'An error occurred. Please try again.',
         confirmButtonText: 'Okay'
       });
     }
@@ -79,7 +70,6 @@ const useLogout = () => {
     });
   }
 };
-
   return {loading , logout}
 }
 
