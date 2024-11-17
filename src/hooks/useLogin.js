@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useUserContext } from "../Context/userContext.js";
 
 const useLogin = () => {
     const [loading, setLoading] = useState(false);
+    const {setUser} = useUserContext();
 
     const login = async (name,phNo, password) => {
         const success = validate(phNo, password); // Client-side input validation
-
+        
         if (!success) return;
 
         try {
@@ -26,6 +28,7 @@ const useLogin = () => {
                 console.log("Login successful. Token:", data.message); 
                 // Handle successful login (store token in localStorage or state)
                 localStorage.setItem("authToken", data.message); 
+                setUser(data.message);
             } else {
                 console.error("Login failed:", data.message); 
                 // Handle login failure (display error message to user)

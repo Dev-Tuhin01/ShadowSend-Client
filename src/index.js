@@ -4,15 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Toaster } from 'react-hot-toast';
+import { UserContextProvider } from './Context/userContext.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Toaster
-  position="top-right"
-  reverseOrder={false}
-/>
+    <UserContextProvider>
     <App />
+    </UserContextProvider>
   </React.StrictMode>
 );
 
