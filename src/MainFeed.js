@@ -4,6 +4,7 @@ import picture from './project.jpeg';
 import Swal from 'sweetalert2'; // Ensure SweetAlert is imported
 import useLogout from './hooks/useLogout.js';
 import useGetSix from './hooks/useGetSix.js';
+import useEncrypt from './hooks/useEncrypt.js';
 
 function MainFeed() {
   const [formVisible, setFormVisible] = useState(false); // State for showing the popup form
@@ -16,6 +17,10 @@ function MainFeed() {
   const [decryptedModalVisible, setDecryptedModalVisible] = useState(false); // State to control the decrypted message modal
   const { logout} = useLogout();
   const {userViews,error,fetchFirstSix} = useGetSix();
+  const {encryptAndSend} = useEncrypt();
+  console.table(userViews)
+  console.log(error)
+
   useEffect(() => {
     fetchFirstSix()
     document.body.classList.add('mainfeed-body');
@@ -77,7 +82,8 @@ function MainFeed() {
   // Send message handler
   const handleSendFormMessage = () => {
     console.log('Message Sent:', formData);
-    handleSendMessageAlert();
+    encryptAndSend(formData);
+    //handleSendMessageAlert();
     closeForm();
   };
 
@@ -143,16 +149,16 @@ function MainFeed() {
       {/* Body */}
       <div className="massage-body">
         <div className="catalog-view">
-          {messages.map((message, index) => (
-            <div className="message-item" key={index}>
+          {userViews.map((user) => (
+            <div className="message-item" key={user.messageId}>
               <h2>
-                <div className="sender">{message.sender}</div>
+                <div className="sender">{user.senderName}</div>
               </h2>
               <br />
               <img src={picture} alt="Sender" />
-              <div className="encrypted-message">{message.encryptedMessage}</div>
+              <div className="encrypted-message">{user.timeStamp}</div>
               <button
-                onClick={() => handleDecrypt(message.encryptedMessage)}
+                onClick={() => handleDecrypt(user.messageId)}
                 className="decrypt-btn"
               >
                 Read

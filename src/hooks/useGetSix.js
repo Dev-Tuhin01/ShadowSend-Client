@@ -29,7 +29,7 @@ const useGetSix = () => {
     try {
       console.log("Fetching data with JWT token..."); // Debug log
 
-      const authString = `Bearer ${authToken}`;
+      const authString =`Bearer ${authToken}`;
       console.debug(authToken);
 
       const response = fetch("/user/findfirstsix", {
@@ -39,10 +39,12 @@ const useGetSix = () => {
         //'Content-Type': 'text/plain',
       },
       }).then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => console.log(data)
+      )
         .catch(error => console.error('Error:', error));
 
       if (!response.ok) {
+        console.log("oops")
         const errorMessage = response.status === 204
           ? "No content found."
           : response.status === 401
