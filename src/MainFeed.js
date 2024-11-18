@@ -18,8 +18,6 @@ function MainFeed() {
   const { logout} = useLogout();
   const {userViews,error,fetchFirstSix} = useGetSix();
   const {encryptAndSend} = useEncrypt();
-  console.table(userViews)
-  console.log(error)
 
   useEffect(() => {
     fetchFirstSix()
@@ -128,7 +126,7 @@ function MainFeed() {
         <div className="logo">AppLogo</div>
         <div className="app-name">ShadowSend</div>
         <form className="form1" method="post">
-          <div className="search-container">
+         {/* <div className="search-container">
             <input
               id="input1"
               type="text"
@@ -138,7 +136,7 @@ function MainFeed() {
             <button id="searchlogo" className="material-symbols-outlined" name="search">
               search
             </button>
-          </div>
+          </div>*/}
         </form>
         <i className="material-icons nav__icon new-message-btn" onClick={openForm}>
           edit_note
@@ -155,8 +153,8 @@ function MainFeed() {
                 <div className="sender">{user.senderName}</div>
               </h2>
               <br />
-              <img src={picture} alt="Sender" />
-              <div className="encrypted-message">{user.timeStamp}</div>
+               <img src={`data:image/jpeg;base64,${user.image}`} alt="Sender" />
+              <div className="encrypted-message">{new Date(user.timeStamp).toLocaleString()}</div>
               <button
                 onClick={() => handleDecrypt(user.messageId)}
                 className="decrypt-btn"

@@ -39,8 +39,8 @@ const useGetSix = () => {
         //'Content-Type': 'text/plain',
       },
       }).then(response => response.json())
-        .then(data => console.log(data)
-      )
+        .then(data => setUserViews(data))
+      
         .catch(error => console.error('Error:', error));
 
       if (!response.ok) {
@@ -60,8 +60,8 @@ const useGetSix = () => {
         return;
       }
 
-      const data = await response.json();
-      setUserViews(data);
+      //const data = await response.json();
+      //setUserViews(data);
     } catch (err) {
       console.error("Fetch error:", err);
       setError(err.message || "An error occurred while fetching the data.");
