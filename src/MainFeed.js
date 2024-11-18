@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'; // Ensure SweetAlert is imported
 import useLogout from './hooks/useLogout.js';
 import useGetSix from './hooks/useGetSix.js';
 import useEncrypt from './hooks/useEncrypt.js';
+import useDecrypt from './hooks/useDecrypt.js';
 
 function MainFeed() {
   const [formVisible, setFormVisible] = useState(false); // State for showing the popup form
@@ -18,6 +19,7 @@ function MainFeed() {
   const { logout} = useLogout();
   const {userViews,error,fetchFirstSix} = useGetSix();
   const {encryptAndSend} = useEncrypt();
+  const {decryptAndRead} = useDecrypt();
 
   useEffect(() => {
     fetchFirstSix()
@@ -43,9 +45,10 @@ function MainFeed() {
   ];
 
   // Decrypt function
-  const handleDecrypt = (encryptedMessage) => {
-    const decodedMessage = atob(encryptedMessage); // Decode Base64
-    setDecryptedMessage(decodedMessage); // Set decrypted message
+  const handleDecrypt = (id) => {
+    //const decodedMessage = atob(encryptedMessage); // Decode Base64
+    decryptAndRead(id,setDecryptedMessage);
+    //setDecryptedMessage(decodedMessage); // Set decrypted message
     setDecryptedModalVisible(true); // Show the modal with decrypted message
     document.querySelector('.massage-body').classList.add('blurred'); // Add blur effect to the background
   };
