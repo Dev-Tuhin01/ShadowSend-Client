@@ -27,7 +27,7 @@ function App() {
     <div className="App">
       {/* Render Forms or MainFeed based on the currentView state */}
       {currentView === 'Forms' && <Forms onViewSwitch={handleViewSwitch} />}
-      {currentView === 'MainFeed' && <MainFeed />}
+      {currentView === 'MainFeed' && <MainFeed setCurrentView={setCurrentView} />}
     </div>
   );
 }

@@ -2,7 +2,7 @@ import {  useState } from "react";
 import { useUserContext } from "../Context/userContext.js";
 import Swal from "sweetalert2";
 
-const useLogout = () => {
+const useLogout = (setCurrentView) => {
   const [loading,setLoading] = useState(false);
   const {setUser} = useUserContext();
   
@@ -53,6 +53,8 @@ const useLogout = () => {
         text: data.message || 'Logout successful.',
         confirmButtonText: 'Okay'
       });
+
+      setCurrentView('Forms');
     } else {
       setError(data.message || 'Logout failed. Please try again.');
       Swal.fire({

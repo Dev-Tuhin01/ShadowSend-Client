@@ -7,7 +7,7 @@ import useEncrypt from './hooks/useEncrypt.js';
 import useDecrypt from './hooks/useDecrypt.js';
 import logo from './5ef71ab8-3a74-433a-9a02-74ecb56bbf52.webp'
 
-function MainFeed() {
+function MainFeed({setCurrentView}) {
   const [formVisible, setFormVisible] = useState(false); // State for showing the popup form
   const [formData, setFormData] = useState({
     receiver: '',
@@ -16,7 +16,7 @@ function MainFeed() {
   });
   const [decryptedMessage, setDecryptedMessage] = useState(''); // State for decrypted message
   const [decryptedModalVisible, setDecryptedModalVisible] = useState(false); // State to control the decrypted message modal
-  const { logout} = useLogout();
+  const { logout} = useLogout(setCurrentView);
   const {userViews,error,fetchFirstSix} = useGetSix();
   const {encryptAndSend} = useEncrypt();
   const {decryptAndRead} = useDecrypt();
