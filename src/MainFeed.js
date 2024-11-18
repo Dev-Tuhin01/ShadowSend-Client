@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './MainFeed.css';
-import picture from './project.jpeg';
 import Swal from 'sweetalert2'; // Ensure SweetAlert is imported
 import useLogout from './hooks/useLogout.js';
 import useGetSix from './hooks/useGetSix.js';
 import useEncrypt from './hooks/useEncrypt.js';
 import useDecrypt from './hooks/useDecrypt.js';
+import logo from './5ef71ab8-3a74-433a-9a02-74ecb56bbf52.webp'
 
 function MainFeed() {
   const [formVisible, setFormVisible] = useState(false); // State for showing the popup form
@@ -126,7 +126,7 @@ function MainFeed() {
     <div className="mainfeed">
       {/* Navbar */}
       <nav className="navbar">
-        <div className="logo">AppLogo</div>
+        <div className="logo"><img src={logo} alt='logo' height={50} width={50}  /> </div>
         <div className="app-name">ShadowSend</div>
         <form className="form1" method="post">
          {/* <div className="search-container">

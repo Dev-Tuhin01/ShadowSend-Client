@@ -40,7 +40,11 @@ body.mainfeed-body {
 }
 
 .app-name {
-    font-size: 28px;
+    display: flex;
+    font-size: 42px;
+    letter-spacing: 2.5px;
+    width: 80%;
+    justify-content: center;
     color: white;
 }
 
@@ -71,6 +75,7 @@ body.mainfeed-body {
     font-size: 50px;
     border: none;
     border-radius: 50%;
+    margin-right: 15px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
