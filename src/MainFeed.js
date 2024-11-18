@@ -150,7 +150,7 @@ function MainFeed() {
       {/* Body */}
       <div className="massage-body">
         <div className="catalog-view">
-          {userViews.map((user) => (
+          {userViews.length <=0 ? <h1 className='sadText'> You have no new messages 😿</h1>:userViews.map((user) => (
             <div className="message-item" key={user.messageId}>
               <h2>
                 <div className="sender">{user.senderName}</div>
