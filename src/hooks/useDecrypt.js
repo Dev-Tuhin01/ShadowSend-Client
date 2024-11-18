@@ -26,6 +26,7 @@ const useDecrypt = () =>{
         const data = await response.json();
         setDecryptedMessage(data.message); // Update decrypted message
  //       document.querySelector('.massage-body').classList.add('blurred'); // Blur background
+
       } else {
         const errorData = await response.json();
         Swal.fire({

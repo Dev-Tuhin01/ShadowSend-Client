@@ -51,6 +51,7 @@ function MainFeed({setCurrentView}) {
     //setDecryptedMessage(decodedMessage); // Set decrypted message
     setDecryptedModalVisible(true); // Show the modal with decrypted message
     document.querySelector('.massage-body').classList.add('blurred'); // Add blur effect to the background
+
   };
 
   // Form data handlers
@@ -85,6 +86,7 @@ function MainFeed({setCurrentView}) {
     console.log('Message Sent:', formData);
     encryptAndSend(formData);
     //handleSendMessageAlert();
+
     closeForm();
   };
 
@@ -115,6 +117,8 @@ function MainFeed({setCurrentView}) {
       text: 'The decrypted message has been deleted.',
       confirmButtonText: 'Okay'
     });
+                window.location.reload(); // This will reload the page
+
   };
 
   const handleLogout = () =>{
