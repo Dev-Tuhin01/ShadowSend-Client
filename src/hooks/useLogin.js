@@ -15,7 +15,7 @@ const useLogin = () => {
             console.log("Attempting to log in:", phNo, password);
 
             // Make API call to the login endpoint
-            const res = await fetch("http://localhost:8080/user/login", {
+            const res = await fetch("/user/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({name, phNo, password }),

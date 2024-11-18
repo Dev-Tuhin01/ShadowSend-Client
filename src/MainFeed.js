@@ -14,7 +14,7 @@ function MainFeed() {
   });
   const [decryptedMessage, setDecryptedMessage] = useState(''); // State for decrypted message
   const [decryptedModalVisible, setDecryptedModalVisible] = useState(false); // State to control the decrypted message modal
-  const {loading, logout} = useLogout();
+  const { logout} = useLogout();
   const {userViews,error,fetchFirstSix} = useGetSix();
   useEffect(() => {
     fetchFirstSix()

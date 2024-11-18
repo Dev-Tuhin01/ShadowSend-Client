@@ -21,13 +21,15 @@ const useLogout = () => {
 
   const authToken = getAuthToken();
 
+  console.log(authToken);
+
   if (!authToken) {
     setError('Authorization token is missing. Please log in first.');
     return;
   }
 
   try {
-    const response = await fetch('/logout', {
+    const response = await fetch('/user/logout', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -60,7 +62,7 @@ const useLogout = () => {
         confirmButtonText: 'Okay'
       });
     }
-  } catch (_err) {
+  } catch (err) {
     setError('An error occurred during logout. Please try again.');
     Swal.fire({
       icon: 'error',
@@ -68,6 +70,7 @@ const useLogout = () => {
       text: 'An error occurred during logout. Please try again.',
       confirmButtonText: 'Okay'
     });
+    console.log(err);
   }
 };
   return {loading , logout}

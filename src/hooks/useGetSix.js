@@ -6,52 +6,69 @@ const useGetSix = () => {
   const [loading, setLoading] = useState(false);
 
   const getAuthToken = () => {
-    return localStorage.getItem("authToken"); // Adjust as per your storage logic
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      console.error("Authorization token not found in localStorage.");
+    }
+    return token;
   };
 
-  // Use useCallback to memoize fetchFirstSix and avoid infinite rerender
   const fetchFirstSix = useCallback(async () => {
-    setError(""); // Clear previous errors
-    setUserViews([]); // Clear previous data
-    setLoading(true); // Set loading state to true
+    setError("");
+    setLoading(true);
 
     const authToken = getAuthToken();
+    console.log(authToken);
 
     if (!authToken) {
       setError("Authorization token is missing. Please log in.");
-      setLoading(false); // Set loading state to false when error occurs
+      setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch("/findfirstsix", {
+      console.log("Fetching data with JWT token..."); // Debug log
+
+      const authString = `Bearer ${authToken}`;
+      console.debug(authToken);
+
+      const response = fetch("/user/findfirstsix", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
+        'Authorization':authString,
+        //'Content-Type': 'text/plain',
+      },
+      }).then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
 
       if (!response.ok) {
-        if (response.status === 204) {
-          setError("No content found.");
-        } else {
-          throw new Error("An error occurred while fetching the data.");
+        const errorMessage = response.status === 204
+          ? "No content found."
+          : response.status === 401
+          ? "Session expired. Please log in again."
+          : `Error: ${response.status} - ${response.statusText}`;
+        
+        if (response.status === 401) {
+          //localStorage.removeItem("authToken"); // Clear token if unauthorized
+          console.log("you are unauthorized")
         }
-        setLoading(false); // Set loading state to false when error occurs
+
+        setError(errorMessage);
         return;
       }
 
       const data = await response.json();
-      setUserViews(data); // Update state with fetched data
+      setUserViews(data);
     } catch (err) {
+      console.error("Fetch error:", err);
       setError(err.message || "An error occurred while fetching the data.");
     } finally {
-      setLoading(false); // Ensure loading state is set to false after request finishes
+      setLoading(false);
     }
-  }, []); // Empty dependency array ensures fetchFirstSix is memoized
+  }, []);
 
   return { userViews, error, loading, fetchFirstSix };
 };
 
 export default useGetSix;
-
